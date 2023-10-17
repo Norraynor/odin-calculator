@@ -10,10 +10,12 @@
     aspect-ratio: 10/1;
     margin: 8px auto;
     border: 1px solid black;
-    line-height: 52px;
+    line-height: 100%;
     text-align: right;
-    font-size: 32px;
-    padding: 0 8px;
+    font-size: 48px;
+}
+.text{
+    padding: 8px 4px;
 }
 .container{
     display: flex;
