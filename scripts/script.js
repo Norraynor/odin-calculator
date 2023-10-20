@@ -16,24 +16,34 @@ function updateDisplay(text) {
 
 function setOperator(oper) {
     let newOperator = oper.target.dataset.operator;
-    if (newOperator === 'equal') {
-        operate(previousOperator, firstVar, secondVar);        
-    } else {
-        previousOperator = currentOperator;
-        currentOperator = newOperator;
-        operate(previousOperator, firstVar, secondVar);        
+
+    previousOperator = currentOperator;
+    currentOperator = newOperator;
+    if (previousOperator !== "equal" && previousOperator !== "") {
+        operate(previousOperator, firstVar, secondVar);
     }
     console.log(previousOperator, currentOperator);
 }
 function setValue(number) {
     let newNumber = +number.target.dataset.value;
-    updateDisplay(newNumber)
-    if (firstVar === 0 || currentOperator === '') {
-        firstVar = newNumber;
+    let numberToDisplay = newNumber;
+    if (currentOperator === '') {
+        if (firstVar === 0) {
+            firstVar = newNumber;
+        } else {
+            firstVar += newNumber.toString();            
+        }
         secondVar = 0;
+        numberToDisplay = firstVar;
     } else {
-        secondVar = newNumber;
+        if (secondVar === 0) {
+            secondVar = newNumber;
+        } else {
+            secondVar += newNumber.toString();
+        }
+        numberToDisplay = secondVar;
     }
+    updateDisplay(numberToDisplay);
     console.log("number 1:", firstVar, "number 2:", secondVar);
 }
 
@@ -71,7 +81,8 @@ function operate(operator, a, b) {
         case "clear":
             firstVar = 0;
             secondVar = 0;
-            operator = "";
+            previousOperator = "";
+            currentOperator = "";
             result = 0;
             break;
         default:
@@ -80,4 +91,7 @@ function operate(operator, a, b) {
     }
     //show on display
     updateDisplay(result);
+    firstVar = result;
+    secondVar = 0;
+    previousOperator = '';
 }
