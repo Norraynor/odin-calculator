@@ -16,6 +16,9 @@ function updateDisplay(text) {
 
 function setOperator(oper) {
     let newOperator = oper.target.dataset.operator;
+    if (newOperator === 'clear') {
+        operate(newOperator);
+    }
 
     previousOperator = currentOperator;
     currentOperator = newOperator;
@@ -25,7 +28,16 @@ function setOperator(oper) {
     console.log(previousOperator, currentOperator);
 }
 function setValue(number) {
-    let newNumber = +number.target.dataset.value;
+    let newNumber = number.target.dataset.value;
+    if (isNaN(firstVar)) {
+        operate('clear');
+    }
+    if (newNumber !== 'period') {
+        newNumber = +newNumber;
+    }
+    else {
+        newNumber = '.';
+    }
     let numberToDisplay = newNumber;
     if (currentOperator === '') {
         if (firstVar === 0) {
@@ -57,12 +69,14 @@ function multiply(a, b) {
     return +a * +b;
 }
 function divide(a, b) {
-    if (b === 0) {
-        return "ERROR CANNOT DIVIDE BY 0";
+    if (+b === 0) {
+        return "CANNOT DIVIDE BY 0";
     }
     return +a / +b;
 }
 function operate(operator, a, b) {
+    a = Number(a).toFixed(4);
+    b = Number(b).toFixed(4);
     let result = 0;
     //depending on operator call different function
     switch (operator) {
@@ -91,7 +105,7 @@ function operate(operator, a, b) {
     }
     //show on display
     updateDisplay(result);
-    firstVar = result;
+    firstVar = result; 
     secondVar = 0;
     previousOperator = '';
 }
