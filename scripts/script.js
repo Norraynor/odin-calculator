@@ -13,6 +13,9 @@ operatorKeys.forEach(key => key.addEventListener('click',setOperator))
 function updateDisplay(text) {
     displayText.textContent = text;
 }
+function getDisplayText() {
+    return displayText.textContent;
+}
 
 function setOperator(oper) {
     let newOperator = oper.target.dataset.operator;
@@ -29,6 +32,7 @@ function setOperator(oper) {
 }
 function setValue(number) {
     let newNumber = number.target.dataset.value;
+    let currentText = getDisplayText();
     if (isNaN(firstVar)) {
         operate('clear');
     }
@@ -40,10 +44,10 @@ function setValue(number) {
     }
     let numberToDisplay = newNumber;
     if (currentOperator === '') {
-        if (firstVar === 0) {
+        if (+currentText === 0) {
             firstVar = newNumber;
         } else {
-            firstVar += newNumber.toString();            
+            firstVar = currentText + newNumber.toString();            
         }
         secondVar = 0;
         numberToDisplay = firstVar;
@@ -51,7 +55,7 @@ function setValue(number) {
         if (secondVar === 0) {
             secondVar = newNumber;
         } else {
-            secondVar += newNumber.toString();
+            secondVar = currentText + newNumber.toString();
         }
         numberToDisplay = secondVar;
     }
