@@ -28,27 +28,34 @@ function setOperator(oper) {
     if (previousOperator !== "equal" && previousOperator !== "") {
         operate(previousOperator, firstVar, secondVar);
     }
-    console.log(previousOperator, currentOperator);
+    console.log("prev oper:",previousOperator,"curr oper:", currentOperator);
 }
 function setValue(number) {
-    let newNumber = number.target.dataset.value;
-    let currentText = getDisplayText();
-    if (isNaN(firstVar)) {
+    if ((currentOperator === 'equal' && previousOperator === '')) {
         operate('clear');
     }
-    if (newNumber !== 'period') {
-        newNumber = +newNumber;
+    let newNumber = number.target.dataset.value;
+    let currentText = getDisplayText();
+    if (newNumber === "period" && currentText.indexOf(".") > 0) {
+			return;
+		}
+    if (isNaN(firstVar) && newNumber !== 'period') {
+        operate('clear');
+    }
+    if (newNumber === 'period') {
+        newNumber = ".";
     }
     else {
-        newNumber = '.';
+        newNumber = +newNumber;
     }
     let numberToDisplay = newNumber;
     if (currentOperator === '') {
         if (+currentText === 0) {
             firstVar = newNumber;
-        } else {
-            firstVar = currentText + newNumber.toString();            
-        }
+            currentOperator = '';
+            } else {
+                firstVar = currentText + newNumber.toString();
+            }
         secondVar = 0;
         numberToDisplay = firstVar;
     } else {
@@ -108,6 +115,7 @@ function operate(operator, a, b) {
             break;
     }
     //show on display
+    result = Math.round((result + Number.EPSILON) * 10000) / 10000; //4 decimal places, 100 for 2, 1000 for 3, etc.
     updateDisplay(result);
     firstVar = result; 
     secondVar = 0;
