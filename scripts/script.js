@@ -115,7 +115,9 @@ function operate(operator, a, b) {
             break;
     }
     //show on display
-    result = Math.round((result + Number.EPSILON) * 10000) / 10000; //4 decimal places, 100 for 2, 1000 for 3, etc.
+    if (!isNaN(result)) {
+			result = Math.round((result + Number.EPSILON) * 10000) / 10000; //4 decimal places, 100 for 2, 1000 for 3, etc.
+		}
     updateDisplay(result);
     firstVar = result; 
     secondVar = 0;
