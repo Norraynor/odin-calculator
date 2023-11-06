@@ -6,9 +6,12 @@ let displayValue = "0";
 const displayText = document.querySelector('.text');
 const numberKeys = document.querySelectorAll('.numbers .key');
 const operatorKeys = document.querySelectorAll(".operators .key");
+//const backspaceKey = document.querySelector('.back-op');
 
 numberKeys.forEach(key => key.addEventListener('click', setValue))
-operatorKeys.forEach(key => key.addEventListener('click',setOperator))
+operatorKeys.forEach(key => key.addEventListener('click', setOperator))
+//backspaceKey.addEventListener("click", setOperator);
+
 
 function updateDisplay(text) {
     displayText.textContent = text;
@@ -19,22 +22,24 @@ function getDisplayText() {
 
 function setOperator(oper) {
     let newOperator = oper.target.dataset.operator;
-    if (newOperator === 'clear') {
-        operate(newOperator);
-    }
+    
 
     previousOperator = currentOperator;
     currentOperator = newOperator;
     if (previousOperator !== "equal" && previousOperator !== "") {
         operate(previousOperator, firstVar, secondVar);
     }
+    if (newOperator === "clear") {
+			operate(newOperator);
+		}
     console.log("prev oper:",previousOperator,"curr oper:", currentOperator);
 }
 function setValue(number) {
     if ((currentOperator === 'equal' && previousOperator === '')) {
         operate('clear');
     }
-    let newNumber = number.target.dataset.value;
+    let newNumber = number.target.dataset.value;        
+    
     let currentText = getDisplayText();
     if (newNumber === "period" && currentText.indexOf(".") > 0) {
 			return;
@@ -89,6 +94,7 @@ function operate(operator, a, b) {
     a = Number(a).toFixed(4);
     b = Number(b).toFixed(4);
     let result = 0;
+    console.log(operator);
     //depending on operator call different function
     switch (operator) {
         case "add":
