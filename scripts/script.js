@@ -6,11 +6,9 @@ let displayValue = "0";
 const displayText = document.querySelector('.text');
 const numberKeys = document.querySelectorAll('.numbers .key');
 const operatorKeys = document.querySelectorAll(".operators .key");
-//const backspaceKey = document.querySelector('.back-op');
 
 numberKeys.forEach(key => key.addEventListener('click', setValue))
 operatorKeys.forEach(key => key.addEventListener('click', setOperator))
-//backspaceKey.addEventListener("click", setOperator);
 
 
 function updateDisplay(text) {
@@ -94,7 +92,6 @@ function operate(operator, a, b) {
     a = Number(a).toFixed(4);
     b = Number(b).toFixed(4);
     let result = 0;
-    console.log(operator);
     //depending on operator call different function
     switch (operator) {
         case "add":
